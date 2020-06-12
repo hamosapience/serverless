@@ -4,8 +4,11 @@ export default (req, res) => {
     const item = data.list[itemId];
     const tags = item.tags ? Object.keys(item.tags) : [];
 
+    if (parseInt(item.favorite)) {
+        tags.push('best')
+    }
+
     res.status(200).json({
-        tags,
-        favorite: Boolean(parseInt(item.favorite))
+        tags
     });
 };
