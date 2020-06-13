@@ -16,6 +16,8 @@ export default (req, res) => {
         return {string: parts};
     };
 
+    const content = i.content.split('\n\n').map(x => ({string: x}));
+
     const roam = [{
         title: i.title,
         children: [{
@@ -38,7 +40,7 @@ export default (req, res) => {
             string: "Content",
             heading: 2,
             children: [
-                {string: i.content}
+                ...content,
             ]
         }]
     }];
