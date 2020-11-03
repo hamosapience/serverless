@@ -3,6 +3,7 @@ const got = require('got');
 const BRAINBOX_API_URL = 'https://api.thebrain.com/api-v9/inbox';
 const AUTH_URL = 'https://api.thebrain.com/api-v11/authenticate';
 
+console.log("INIT");
 let sid = null;
 
 const updateSid = async () => {
@@ -17,10 +18,10 @@ const updateSid = async () => {
     });
 
     const newSid = response
-        .body?.data.id;
+        .body?.data.attributes['session-id'];
 
     if (newSid) {
-        console.log('Got new sid');
+        console.log('Got new sid', newSid, response.body);
         sid = newSid;
     } else {
         console.error('Error updating sid', {
@@ -31,7 +32,11 @@ const updateSid = async () => {
 };
 
 const addItem = async (text, link) => {
+    console.log('Adding item', text, link);
     const response = await got.post(BRAINBOX_API_URL, {
+        headers: {
+            cookie: `sid=${sid}`,
+        },
         form: {
             title: text,
             url: link,
@@ -39,9 +44,7 @@ const addItem = async (text, link) => {
     });
 
 
-
-    
-
+    return response;
 };
 
 
@@ -55,10 +58,9 @@ const handler = async (req, res) => {
         await updateSid();
     }
 
+    const result = await addItem(text, 'https://yandex.ru');
 
-    // const result = await addItem(text, 'https://yandex.ru');
-
-    // console.log(result);
+    console.log(result.statusCode);
 
     res.send(200);
 
