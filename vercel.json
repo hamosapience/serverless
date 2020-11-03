@@ -1,0 +1,9 @@
+{
+    "env": {
+        "THE_BRAIN_PWD": "@thebrainpassword"
+    },
+    "build": {
+        "env": {
+        }
+    }
+}

@@ -21,7 +21,7 @@ export default (req, res) => {
     }
 
 
-    console.log('password', process.env);
+    console.log('password', process.env.THE_BRAIN_PWD);
 
     res.send(200);
 
