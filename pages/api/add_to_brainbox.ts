@@ -51,6 +51,7 @@ const addItem = async (text, link) => {
 const handler = async (req, res) => {
     const message = req.body.message;
     const text = message.text ?? '';
+    const url = message;
 
     console.log('Current sid', sid);
 
@@ -59,6 +60,11 @@ const handler = async (req, res) => {
     }
 
     const result = await addItem(text, 'https://yandex.ru');
+
+    if (result.statusCode !== 200) {
+        await updateSid();
+
+    }
 
     console.log(result.statusCode);
 
